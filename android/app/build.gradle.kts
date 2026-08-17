@@ -1,7 +1,17 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
+}
+
+val releaseSigningProperties = Properties().apply {
+    val propertiesPath = System.getenv("RUFLO_SIGNING_PROPERTIES")
+    if (!propertiesPath.isNullOrBlank()) {
+        FileInputStream(file(propertiesPath)).use(::load)
+    }
 }
 
 android {
@@ -19,8 +29,22 @@ android {
         manifestPlaceholders["appAuthRedirectScheme"] = "io.ruv.ruflo.android"
     }
 
+    signingConfigs {
+        create("release") {
+            if (!releaseSigningProperties.isEmpty) {
+                storeFile = file(releaseSigningProperties.getProperty("storeFile"))
+                storePassword = releaseSigningProperties.getProperty("storePassword")
+                keyAlias = releaseSigningProperties.getProperty("keyAlias")
+                keyPassword = releaseSigningProperties.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
+            if (!releaseSigningProperties.isEmpty) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

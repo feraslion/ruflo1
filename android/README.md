@@ -13,6 +13,14 @@
 
 ينتج ملف APK التجريبي في `app/build/outputs/apk/debug/`.
 
+لبناء إصدار موقّع، احفظ بيانات المخزن في ملف خصائص خاص خارج Git ثم مرّر مساره كمتغير بيئة:
+
+```bash
+RUFLO_SIGNING_PROPERTIES=/path/to/signing.properties ./gradlew assembleRelease
+```
+
+يجب أن يحوي الملف `storeFile` و`storePassword` و`keyAlias` و`keyPassword`. لا تضف هذا الملف أو مخزن المفاتيح إلى المستودع.
+
 ## إعداد المصادقة والتفويض
 
 لا يقبل التطبيق كلمات مرور أو رموز وصول ملصقة يدويًا. بدلاً من ذلك، يستخدم **OpenID Connect / OAuth 2.0 Authorization Code مع PKCE** في متصفح نظام Android. لهذا الغرض يجب أن تسجّل عميلًا عامًا في موفر الهوية الموثوق لبوابتك، بالمعرّف التالي:
