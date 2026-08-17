@@ -372,6 +372,10 @@ User --> Claude Code / CLI
 
 ---
 
+## Android Companion
+
+يتضمن المستودع تطبيق Android أصليًا للمراقبة الآمنة عبر بوابة Ruflo متوافقة. راجع [`android/README.md`](android/README.md) لمتطلبات البناء وعقد `GET /api/v1/agents` وحدود النسخة الأولى.
+
 ## Documentation
 
 Four docs for four audiences:
